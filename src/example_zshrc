@@ -1,3 +1,13 @@
-eval "$(starship init zsh)"
+autoload -U add-zsh-hook
 
-alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+prompt_bort_chpwd() {}
+
+prompt_bort_precmd() {
+    DIR=$(pwd)
+    PROMPT='$(~/projects/bort/target/debug/bort prompt --dir="$DIR")'
+    RPROMPT='$(~/projects/bort/target/debug/bort prompt --right)'
+}
+
+add-zsh-hook chpwd prompt_bort_chpwd
+add-zsh-hook precmd prompt_bort_precmd
+
