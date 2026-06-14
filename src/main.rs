@@ -8,13 +8,7 @@ fn main() {
 
     if let Some(command) = cli.command {
         match command {
-            Commands::Prompt { right, dir } => {
-                if right {
-                    prompt_right();
-                } else {
-                    prompt(dir.unwrap_or_default());
-                }
-            },
+            Commands::Prompt { dir, terminal_width } => prompt(dir, terminal_width),
         }
     }
 }
@@ -28,21 +22,21 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     Prompt {
-        #[arg(long, default_value_t = false)]
-        right: bool,
+        #[arg(long)]
+        dir: String,
 
         #[arg(long)]
-        dir: Option<String>,        
+        terminal_width: usize,
     },
 }
 
-fn prompt(dir: String) {
-    println!("{}> ", dir); 
-}
+fn prompt(dir: String, terminal_width: usize) {
+    let total_len = dir.len();
+    let width = terminal_width - total_len;
 
-fn prompt_right() {
     let system_time = SystemTime::now();
     let datetime: DateTime<Local> = system_time.into();
-
-    println!("{}", datetime.format("%T"));
+    println!("{}{:>width$}\n> ", dir, datetime.format("%H:%M")); 
+    // println!("%~\n> ");
+    // println!("{}> ", dir); 
 }

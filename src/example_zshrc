@@ -4,8 +4,8 @@ prompt_bort_chpwd() {}
 
 prompt_bort_precmd() {
     DIR=$(pwd)
-    PROMPT='$(~/projects/bort/target/debug/bort prompt --dir="$DIR")'
-    RPROMPT='$(~/projects/bort/target/debug/bort prompt --right)'
+    TERMINAL_WIDTH=$(tput cols)
+    PROMPT='$(~/projects/bort/target/debug/bort prompt --dir="$DIR" --terminal-width=$TERMINAL_WIDTH)'
 }
 
 add-zsh-hook chpwd prompt_bort_chpwd
