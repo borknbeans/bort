@@ -8,7 +8,7 @@ fn main() {
 
     if let Some(command) = cli.command {
         match command {
-            Commands::Prompt { dir, terminal_width } => prompt(dir, terminal_width),
+            Commands::Prompt { home_dir, dir, terminal_width } => prompt(home_dir, dir, terminal_width),
         }
     }
 }
@@ -23,6 +23,9 @@ struct Cli {
 enum Commands {
     Prompt {
         #[arg(long)]
+        home_dir: String,
+
+        #[arg(long)]
         dir: String,
 
         #[arg(long)]
@@ -30,13 +33,16 @@ enum Commands {
     },
 }
 
-fn prompt(dir: String, terminal_width: usize) {
+fn prompt(home_dir: String, mut dir: String, terminal_width: usize) {
+    // Replace home directory with ~ if applicable
+    if dir.starts_with(&home_dir) {
+        dir = dir.replace(&home_dir, "~")
+    }
+
     let total_len = dir.len();
     let width = terminal_width - total_len;
 
     let system_time = SystemTime::now();
     let datetime: DateTime<Local> = system_time.into();
-    println!("{}{:>width$}\n> ", dir, datetime.format("%H:%M")); 
-    // println!("%~\n> ");
-    // println!("{}> ", dir); 
+    println!("%F{{#689d6a}}{}%f{:>width$}\n> ", dir, datetime.format("%H:%M")); 
 }
