@@ -1,21 +1,18 @@
-use crate::modules::Module;
+use crate::{PromptArgs, config::Config, modules::Module};
 
-pub(crate) struct Dir {
-    pub(crate) home_dir: String,
-    pub(crate) full_dir: String,
-}
+pub(crate) struct DirModule;
 
-impl Module for Dir {
-    fn name(&self) -> String {
-        "dir".to_string() 
+impl Module for DirModule {
+    fn name(&self) -> &'static str {
+        "dir" 
     }
 
-    fn format(&self) -> String {
-        let mut dir = self.full_dir.clone();
-        if self.full_dir.starts_with(&self.home_dir) {
-            dir = dir.replace(&self.home_dir, "~");
+    fn format_prompt(&self, prompt: String, prompt_args: &PromptArgs, _config: &Config) -> String {
+        let mut dir = prompt_args.curr_dir.clone();
+        if dir.starts_with(&prompt_args.home_dir) {
+            dir = dir.replace(&prompt_args.home_dir, "~");
         }
 
-        dir
+        prompt.replace(&self.module_name(), &dir)
     }
 }
