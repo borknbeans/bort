@@ -7,6 +7,7 @@ pub(crate) struct Config {
     pub(crate) format: String,
     pub(crate) dir: Option<modules::dir::DirModuleConfig>,
     pub(crate) time: Option<modules::time::TimeModuleConfig>,
+    pub(crate) fill: Option<modules::fill::FillModuleConfig>,
 }
 
 #[derive(Deserialize, Default)]

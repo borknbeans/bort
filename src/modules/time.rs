@@ -7,7 +7,8 @@ use crate::{PromptArgs, config::{Config, SharedModuleConfig}, modules::Module};
 
 pub(crate) struct TimeModule;
 
-#[derive(Deserialize, Default)]
+#[derive(Deserialize)]
+#[serde(default)]
 pub(crate) struct TimeModuleConfig {
     pub(crate) format: String,
 
@@ -36,5 +37,14 @@ impl Module for TimeModule {
         }
         
         prompt.replace(&self.module_name(), &res) 
+    }
+}
+
+impl Default for TimeModuleConfig {
+    fn default() -> Self {
+        Self {
+            format: "%H:%M".to_string(),
+            shared: SharedModuleConfig::default(),
+        }
     }
 }

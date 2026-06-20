@@ -5,6 +5,7 @@ use crate::{PromptArgs, config::{Config, SharedModuleConfig}, modules::Module};
 pub(crate) struct DirModule;
 
 #[derive(Deserialize, Default)]
+#[serde(default)]
 pub(crate) struct DirModuleConfig {
     #[serde(flatten)]
     pub(crate) shared: SharedModuleConfig,
