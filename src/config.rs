@@ -1,8 +1,17 @@
 use serde::Deserialize;
 
+use crate::modules;
+
 #[derive(Deserialize, Default)]
 pub(crate) struct Config {
-    pub(crate) format: String 
+    pub(crate) format: String,
+    pub(crate) dir: Option<modules::dir::DirModuleConfig>,
+    pub(crate) time: Option<modules::time::TimeModuleConfig>,
+}
+
+#[derive(Deserialize, Default)]
+pub(crate) struct SharedModuleConfig {
+    pub(crate) color: Option<String>,
 }
 
 pub(crate) fn parse_config(home_dir: &str) -> Config {
